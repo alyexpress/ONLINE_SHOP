@@ -1,0 +1,9 @@
+:root {
+    --main-color: dodgerblue;
+    --green: #00c451;
+    --red: #F1117E;
+}
+
+body {
+    background: #F5F7FA;
+}

@@ -1,0 +1,120 @@
+form.search {
+    border-radius: 25px;
+    border: 3px solid var(--main-color);
+    background: var(--main-color);
+    overflow: hidden;
+    transition: .2s;
+}
+
+form.search:has(input:focus) {
+    box-shadow: 0 0 25px #1E90FF55;
+}
+
+form.search > input {
+    width: 100%;
+    font-size: 30px;
+    font-weight: 500;
+    padding: 5px 60px 5px 25px;
+    background: white;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+form.search > input::placeholder {
+    color: #bbbbbb;
+}
+
+form.search > button {
+    width: 100px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+    transition: .15s;
+}
+
+form.search > button:hover { filter: brightness(115%) }
+
+
+.product-grid > .col {
+    margin-top: 25px;
+}
+
+.product-grid > .col > a {
+    display: block;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    color: black;
+    text-decoration: none;
+}
+
+.product-grid > .col > a:hover img {
+    transform: scale(106%) translateY(-3%);
+}
+
+.product-grid > .col .product-info {
+    margin: 7px 15px 10px;
+}
+
+.product-grid > .col img {
+    width: 100%;
+    transition: .4s;
+}
+
+.product-grid > .col .product-info .cost {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--green);
+}
+
+.product-grid > .col .product-info .previous-cost {
+    margin: 0 0 3px 7px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.product-grid > .col .product-info .discount {
+    margin: 0 0 3px 6px;
+    color: var(--red);
+    font-weight: 500;
+}
+
+.product-grid > .col .product-info > h4 {
+    font-size: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-grid > .col .product-info > h4:hover {
+    color: var(--main-color);
+    text-decoration: underline;
+}
+
+.product-grid > .col .product-info .rating > svg {
+    color: orange;
+    margin: -1px 3px 1px 0;
+}
+
+.product-grid > .col .product-info .seller {
+    color: #999999;
+    margin-left: 7px;
+}
+
+.product-grid > .col .product-info .seller > svg {
+    margin-right: 2px;
+}
+
+/*.product-grid > .col .product-info button {*/
+/*    background: var(--main-color);*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*.product-grid > .col .product-info button > svg {*/
+/*    margin: -2px 2px 2px 0;*/
+/*}*/

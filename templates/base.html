@@ -1,0 +1,42 @@
+{% set base_css = ["style.css", "header.css", "footer.css"] %}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ PROJECT_NAME }}{% if title is defined %} | {{ title }}{% endif %}</title>
+    {% if bootstrap is not defined or bootstrap == True %}<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">{% endif %}
+    {% for file in base_css %}<link rel="stylesheet" href="{{ url_for("static", filename="css/base/" + file) }}">{% endfor %}
+    {% for file in css %}<link rel="stylesheet" href="{{ url_for("static", filename="css/" + file) }}">{% endfor %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container d-flex">
+            <a href="/" class="header-logo text-white text-decoration-none d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-sunglasses" viewBox="0 0 16 16">
+                    <path d="M3 5a2 2 0 0 0-2 2v.5H.5a.5.5 0 0 0 0 1H1V9a2 2 0 0 0 2 2h1a3 3 0 0 0 3-3 1 1 0 1 1 2 0 3 3 0 0 0 3 3h1a2 2 0 0 0 2-2v-.5h.5a.5.5 0 0 0 0-1H15V7a2 2 0 0 0-2-2h-2a2 2 0 0 0-1.888 1.338A2 2 0 0 0 8 6a2 2 0 0 0-1.112.338A2 2 0 0 0 5 5zm0 1h.941c.264 0 .348.356.112.474l-.457.228a2 2 0 0 0-.894.894l-.228.457C2.356 8.289 2 8.205 2 7.94V7a1 1 0 0 1 1-1">
+                    </path></svg><span>{{ PROJECT_NAME }}</span>
+            </a>
+            <div class="navigation-bar d-flex align-items-center">
+                <a href="/" class="navigation-active">Главная</a>
+                <a href="">Товары</a>
+                <a href="">Корзина</a>
+                <a href="">Баланс</a>
+            </div>
+            <div class="header-login d-flex align-items-center">
+                <a href="/login" class="header-login-solid">Войти</a>
+                <a href="/registration" class="header-login-outline">Регистрация</a>
+            </div>
+        </div>
+    </header>
+    {% block body %}{% endblock %}
+    {% if bootstrap is not defined or bootstrap == True %}<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>{% endif %}
+    {% for file in js %}<script type="text/javascript" src="{{ url_for("static", filename="js/" + file) }}"></script>{% endfor %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
