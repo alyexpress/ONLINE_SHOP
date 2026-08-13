@@ -1,10 +1,13 @@
 from flask import Flask, render_template
 from config import *
 
+from database import Database
+
 
 app = Flask(__name__,
             template_folder=TEMPLATES_DIR,
             static_folder=STATIC_DIR)
+db = Database(DATABASE_PATH)
 
 
 @app.context_processor
