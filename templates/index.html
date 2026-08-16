@@ -5,6 +5,7 @@
 
 {% block body %}
     <div class="container">
+        <h1>{{ current_user.username }}</h1>
         <form action="/search" method="get" class="search d-flex">
             <input type="text" placeholder="Подберём товары на сайте по вашему запросу">
             <button type="submit">

@@ -1,3 +1,5 @@
+from os import path
+
 # BASIC SITE CONFIG
 PROJECT_NAME = "OnlineShop"
 COMPANY_NAME = "AlyExpress™"
@@ -11,3 +13,5 @@ PORT = 8080
 # DIRECTORIES CONFIG
 TEMPLATES_DIR = 'templates'
 STATIC_DIR = 'static'
+DATABASE_DIR = 'database'
+DATABASE_PATH = path.join(DATABASE_DIR, "database.db")
