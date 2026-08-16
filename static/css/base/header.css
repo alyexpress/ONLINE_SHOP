@@ -50,10 +50,19 @@ header .navigation-bar > a:hover::before { left: 15px }
 header .navigation-bar > a.navigation-active::before { display: none }
 
 header .navigation-bar > a.navigation-active {
-    background: linear-gradient(#ffffff11, #ffffff44);
-    font-weight: bold;
-    color: white;
-    border: 1px solid #ffffff55;
+    animation-name: header-navigation-active;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-duration: .3s;
+}
+
+@keyframes header-navigation-active {
+    100% {
+        background: linear-gradient(#ffffff11, #ffffff44);
+        border: 1px solid #ffffff55;
+        font-weight: bold;
+        color: white;
+    }
 }
 
 header .header-login > a {

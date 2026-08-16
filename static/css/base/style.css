@@ -1,9 +1,10 @@
 :root {
     --main-color: dodgerblue;
+    --bg-color: #F5F7FA;
     --green: #00c451;
     --red: #F1117E;
 }
 
 body {
-    background: #F5F7FA;
+    background: var(--bg-color);
 }

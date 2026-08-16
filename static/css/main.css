@@ -49,9 +49,9 @@ form.search > button:hover { filter: brightness(115%) }
     text-decoration: none;
 }
 
-.product-grid > .col > a:hover img {
-    transform: scale(106%) translateY(-3%);
-}
+/*.product-grid > .col > a:hover img {*/
+/*    transform: scale(106%) translateY(-3%);*/
+/*}*/
 
 .product-grid > .col .product-info {
     margin: 7px 15px 10px;
@@ -94,6 +94,10 @@ form.search > button:hover { filter: brightness(115%) }
     text-decoration: underline;
 }
 
+.product-grid > .col .product-info .rating > span {
+    font-weight: 500;
+}
+
 .product-grid > .col .product-info .rating > svg {
     color: orange;
     margin: -1px 3px 1px 0;
@@ -101,6 +105,7 @@ form.search > button:hover { filter: brightness(115%) }
 
 .product-grid > .col .product-info .seller {
     color: #999999;
+    font-weight: 500;
     margin-left: 7px;
 }
 
@@ -108,13 +113,78 @@ form.search > button:hover { filter: brightness(115%) }
     margin-right: 2px;
 }
 
-/*.product-grid > .col .product-info button {*/
-/*    background: var(--main-color);*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 10px;*/
-/*}*/
+.product-category > .col > a {
+    display: block;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    overflow: hidden;
+    padding: 5px 0;
+    transition: .3s;
+}
 
-/*.product-grid > .col .product-info button > svg {*/
-/*    margin: -2px 2px 2px 0;*/
-/*}*/
+.product-category > .col > a:hover {
+    transform: scale(1.1);
+}
+
+.product-category > .col img {
+    width: 90%;
+}
+
+.sort-button {
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    transition: .15s;
+}
+
+.sort-button > svg {
+    margin-right: 5px;
+}
+
+label.sort-button {
+    font-weight: 500;
+    margin-left: 10px;
+    user-select: none;
+    cursor: pointer;
+}
+
+label.sort-button > svg {
+    margin: -5px 3px -5px -7px;
+}
+
+label.sort-button:has(input:checked) {
+    background: var(--main-color);
+    border-color: var(--main-color);
+    color: white;
+}
+
+.more-button {
+    margin: 10px 0;
+    width: 100%;
+    max-width: 400px;
+    background: var(--main-color);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 5px 0;
+    border-radius: 20px;
+    transition: .5s;
+}
+
+.more-button > svg {
+    margin: -3px 7px 2px 0;
+}
+
+.more-button:hover {
+    filter: brightness(115%);
+}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% set nav = 1 %}
+{% set nav = 2 %}
 {% set css = ["main.css"] %}
 
 {% block body %}
@@ -13,285 +13,358 @@
                 </svg>
             </button>
         </form>
-        <div class="product-grid row row-cols-5 mb-4">
+        <div class="product-category row row-cols-9 mt-4">
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_1.png") }}" alt="">
+                    <span>Электроника</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img.png") }}" alt="">
+                    <span>Одежда</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_2.png") }}" alt="">
+                    <span>Обувь</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_3.png") }}" alt="">
+                    <span>Спорт</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_4.png") }}" alt="">
+                    <span>Аптека</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_5.png") }}" alt="">
+                    <span>Ремонт</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_6.png") }}" alt="">
+                    <span>Для детей</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_7.png") }}" alt="">
+                    <span>Книги</span>
                 </a>
             </div>
             <div class="col">
                 <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a href="">
-                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
-                    <div class="product-info">
-                        <div class="d-flex align-items-end">
-                            <span class="cost">299 ₽</span>
-                            <span class="previous-cost">600 ₽</span>
-                            <span class="discount">-50%</span>
-                        </div>
-                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
-                        <div class="d-flex">
-                            <div class="rating d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                                </svg>
-                                <span>4.9</span>
-                            </div>
-                            <div class="seller d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
-                                </svg>
-                                <span>AlyExpress</span>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="{{ url_for("static", filename="imgs/img_8.png") }}" alt="">
+                    <span>Для дома</span>
                 </a>
             </div>
         </div>
-        <div class="d-flex justify-content-center mb-5">
-            <a href="/products" class="more-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-basket2-fill" viewBox="0 0 16 16">
-                    <path d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0zm4-1a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1"></path>
-                </svg>
-                Больше товаров
-            </a>
+        <div class="d-flex mt-4">
+            <div class="flex-grow-1">
+                <button class="sort-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-sort-down" viewBox="0 0 16 16">
+                        <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"></path>
+                    </svg>
+                    Сортировать
+                </button>
+            </div>
+            <div class="d-flex">
+                <button class="sort-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"></path>
+                    </svg>
+                    Фильтровать
+                </button>
+                <label class="sort-button">
+                    <input type="checkbox" hidden checked>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"></path>
+                    </svg>
+                    Проверенные
+                </label>
+            </div>
+        </div>
+        <div class="product-grid row row-cols-5 mb-5">
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="">
+                    <img src="{{ url_for("static", filename="imgs/img.jpg") }}" alt="">
+                    <div class="product-info">
+                        <div class="d-flex align-items-end">
+                            <span class="cost">299 ₽</span>
+                            <span class="previous-cost">600 ₽</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        <h4>Самый первый товар на этом сайте который может изменить всю историю</h4>
+                        <div class="d-flex">
+                            <div class="rating d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                            <div class="seller d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                </svg>
+                                <span>AlyExpress</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}

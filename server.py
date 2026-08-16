@@ -28,5 +28,20 @@ def registration():
     return render_template('registration.html')
 
 
+@app.route('/products')
+def products():
+    return render_template('products.html')
+
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
+
+
+@app.route('/money')
+def money():
+    return render_template('money.html')
+
+
 if __name__ == '__main__':
     app.run(host=HOST, port=PORT, debug=DEBUG)
