@@ -14,6 +14,11 @@ class Database:
         self.success = True
         self.errors = []
 
+    @staticmethod
+    def load_user(user_id):
+        db_sess = db_session.create_session()
+        return db_sess.query(User).get(user_id)
+
     def clear_last_data(self):
         self.success = True
         self.errors = []
@@ -40,8 +45,21 @@ class Database:
         )
         db_sess.add(new_user)
         db_sess.commit()
-        return new_user
+        return db_sess.query(User).filter(User.id == new_user.id).first()
 
+    def login_user(self, login:str, password:str):
+        db_sess = db_session.create_session()
+        if "@" in login:
+            user = db_sess.query(User).filter(User.email == login).first()
+        else:
+            user = db_sess.query(User).filter(User.username == login).first()
+        password = hashed_password(password)
+        if user and user.hashed_password == password:
+            self.success = True
+            return user
+        self.success = False
+        self.errors.append((0, "Неверный email или username или пароль"))
+        return None
 
     def create_seller(self, user_id=int, name=str):
         self.clear_last_data()
