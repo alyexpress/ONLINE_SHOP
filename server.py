@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 from config import *
@@ -9,9 +9,14 @@ from database import Database
 app = Flask(__name__,
             template_folder=TEMPLATES_DIR,
             static_folder=STATIC_DIR)
+
+# Setting secret key from config
 app.config['SECRET_KEY'] = SECRET_KEY
 
+# Database init
 db = Database(DATABASE_PATH)
+
+# Login manager init
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -40,30 +45,42 @@ def index():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
+def _login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    elif request.method == 'POST':
+        # Get input data & check validation
         login = request.form.get('login', "")
         password = request.form.get('password', "")
         user = db.login_user(login, password)
-        if not db.success:
-            return render_template('login.html')
-        login_user(user, remember=True)
-        return redirect("/")
-    return render_template('login.html')
+
+        # Login user if validation success
+        if db.success:
+            login_user(user, remember=True)
+            return redirect("/")
+
+        return render_template('login.html', errors=db.errors)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
+    if request.method == 'GET':
+        return render_template('registration.html')
+
     if request.method == 'POST':
+        # Get input data & check validation
         username = request.form.get('username', "")
         email = request.form.get('email', "")
         password = request.form.get('password', "")
         new_user = db.create_user(username, email, password)
-        if not db.success:
-            return render_template('registration.html')
-        login_user(new_user, remember=True)
-        return redirect("/")
-    return render_template('registration.html')
+
+        # Create & login user if validation success
+        if db.success:
+            login_user(new_user, remember=True)
+            return redirect("/")
+
+        return render_template('registration.html', errors=db.errors)
 
 
 @app.route('/products')
