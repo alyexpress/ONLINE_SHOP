@@ -80,6 +80,7 @@ label.checkbox-body input[type=checkbox]:checked ~ .checkbox > svg {
 .cart-product img {
     width: 100%;
     border-radius: 15px;
+    user-select: none;
 }
 
 .cart-product > div:has(img) { width: 14% }
@@ -170,7 +171,7 @@ label.checkbox-body input[type=checkbox]:checked ~ .checkbox > svg {
 }
 
 .cart-check h1 {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
     padding: 20px 25px;
 }
