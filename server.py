@@ -1,10 +1,13 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 from config import *
 
 from database import Database
 
+from app.utils import get_cart_cookie
+
+from collections import defaultdict
 
 app = Flask(__name__,
             template_folder=TEMPLATES_DIR,
@@ -92,6 +95,16 @@ def products():
 def cart():
     return render_template('cart.html')
 
+@app.route('/cart/buy')
+def cart_buy():
+    db.purchase(current_user, get_cart_cookie(request.cookies))
+    return render_template('cart_buy.html')
+
+@app.route('/add_product/<int:product_id>')
+def add_product(product_id):
+    response = redirect("/")
+    response.set_cookie(f"{CART_COOKIES}_{product_id}", "1", EXPIRES_COOKIES)
+    return response
 
 @app.route('/money')
 def money():

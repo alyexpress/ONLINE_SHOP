@@ -47,3 +47,8 @@ counters.forEach((counter, index) => {
         }
     })
 })
+
+
+document.getElementById('pay-btn').onclick = () => {
+  window.location.href = window.location.origin + window.location.pathname + '/buy';
+};

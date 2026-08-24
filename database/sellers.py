@@ -11,5 +11,6 @@ class Seller(SqlAlchemyBase):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.VARCHAR, unique=True, nullable=False)
+    balance = db.Column(db.Float, nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.now())
     user = orm.relationship('User')

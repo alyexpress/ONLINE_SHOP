@@ -1,7 +1,8 @@
-from . import db_session
+from . import db_session, transactions
 from .users import User
 from .sellers import Seller
 from .products import Product
+from .transactions import Transaction
 
 from app.utils import hashed_password
 
@@ -23,7 +24,7 @@ class Database:
         return db_session.create_session()
 
 
-    def create_user(self, username:str, email:str, password:str):
+    def create_user(self, username:str, email:str, password:str, balance:float = 100000):
         db_sess = self.create_session()
 
         # Input data validation
@@ -41,7 +42,8 @@ class Database:
 
         # Creating new user & save
         new_user = User(email=email, username=username,
-            hashed_password=hashed_password(password))
+            hashed_password=hashed_password(password),
+                        balance=balance)
         db_sess.add(new_user)
         db_sess.commit()
 
@@ -64,47 +66,146 @@ class Database:
         return user
 
 
-    # def create_seller(self, user_id=int, name=str):
-    #     self.clear_last_data()
-    #     db_sess = db_session.create_session()
-    #     if not db_sess.query(User).filter(User.id == user_id).first():
-    #         self.success = False
-    #         self.errors.append((0, "Пльзователь с этим id не найден."))
-    #     if not 4 <= len(name) <= 25:
-    #         self.success = False
-    #         self.errors.append((0, "Ваш никнейм должен быть длинной от 4 до 25 символов."))
-    #     if db_sess.query(Seller).filter(Seller.name == name).first() is not None:
-    #         self.success = False
-    #         self.errors.append((0, "Этот никнейм уже занят."))
-    #     if not self.success: return None
-    #     new_seller = Seller(user_id=user_id, name=name)
-    #     db_sess.add(new_seller)
-    #     db_sess.commit()
-    #     return new_seller
-    #
-    # def create_product(self, seller_id=int, name=str, price=float, count=int, description=None):
-    #     self.clear_last_data()
-    #     db_sess = db_session.create_session()
-    #     if not db_sess.query(Seller).filter(Seller.seller_id == seller_id).first():
-    #         self.success = False
-    #         self.errors.append((0, "Пльзователь с этим id не найден."))
-    #     if not 2 <= len(name) <= 50:
-    #         self.success = False
-    #         self.errors.append((1, "Название продукта должно быть от 2 до 50 символов."))
-    #     if price <= 0:
-    #         self.success = False
-    #         self.errors.append((2, "Цена продукта должна быть больше 0."))
-    #     if count < 0:
-    #         self.success = False
-    #         self.errors.append((3, "Количество продукта не может быть меньше нуля."))
-    #     if not self.success: return None
-    #     new_product = Product(
-    #         seller_id=seller_id,
-    #         name=name,
-    #         price=price,
-    #         count=count,
-    #         description=description
-    #     )
-    #     return new_product
+    def create_seller(self, user_id:int, name:str, balance:float = 0):
+        db_sess = self.create_session()
+
+        if not db_sess.query(User).filter(User.id == user_id).first():
+            self.success = False
+            self.errors.append((0, "Пльзователь с этим id не найден."))
+        if not 4 <= len(name) <= 25:
+            self.success = False
+            self.errors.append((0, "Ваш никнейм должен быть длинной от 4 до 25 символов."))
+        if db_sess.query(Seller).filter(Seller.name == name).first() is not None:
+            self.success = False
+            self.errors.append((0, "Этот никнейм уже занят."))
+        if not self.success: return None
+        new_seller = Seller(user_id=user_id, name=name, balance=balance)
+        db_sess.add(new_seller)
+        db_sess.commit()
+        return new_seller
+
+    def create_product(self, seller_id=int, name=str, price=float, count=int, description=None):
+        db_sess = self.create_session()
+
+        if not db_sess.query(Seller).filter(Seller.id == seller_id).first():
+            self.success = False
+            self.errors.append((0, "Пльзователь с этим id не найден."))
+        if not 2 <= len(name) <= 50:
+            self.success = False
+            self.errors.append((1, "Название продукта должно быть от 2 до 50 символов."))
+        if price <= 0:
+            self.success = False
+            self.errors.append((2, "Цена продукта должна быть больше 0."))
+        if count < 0:
+            self.success = False
+            self.errors.append((3, "Количество продукта не может быть меньше нуля."))
+        if not self.success: return None
+        new_product = Product(
+            seller_id=seller_id,
+            name=name,
+            price=price,
+            count=count,
+            description=description
+        )
+        db_sess.add(new_product)
+        db_sess.commit()
+        return new_product
+
+    def purchase(self, user:User, products:dict):
+        db_sess = self.create_session()
+
+        if not products:
+            self.success = False
+            self.errors.append((1, "Передан пустой список товаров"))
+            return None
+
+        transactions = []
+
+        for product_id in products.keys():
+            product = db_sess.query(Product).filter(Product.id == product_id).first()
+
+            if product.count < 1:
+                self.success = False
+                self.errors.append((1, f"Товар {product_id} закончился."))
+
+            amount = product.price * products[product_id]
+
+            transactions.append(Transaction(
+                transaction_type=1,
+                from_id=user.id,
+                to_id=product.seller_id,
+                amount=amount,
+                product_id=product_id,
+                product=product
+            ))
+
+            # db_sess.add(transaction)
+            # user.balance -= amount
+            # product.seller.balance += amount
+            # product.count -= products[product_id]
+
+        total = sum(list(map(lambda x: x.amount, transactions)))
+        if total > user.balance:
+            self.success = False
+            self.errors.append((0, "Недостаточно средств."))
+
+        if not self.success: return None
+
+        user = db_sess.merge(user)
+        user.balance -= total
+
+        for transaction in transactions:
+            transaction.product.seller.balance += transaction.amount
+            db_sess.add(transaction)
+
+        db_sess.commit()
+        return None
+
+        # total_amount = 0
+        #
+        # for product in products:
+        #     if not isinstance(product, Product):
+        #         self.success = False
+        #         self.errors.append((1, "В списке передан не товар."))
+        #     if product.count <= 0:
+        #         self.success = False
+        #         self.errors.append((1, "Товар отсутсвует на складе."))
+        #
+        #     total_amount += product.price
+        #
+        #     if user.balance < total_amount:
+        #         self.success = False
+        #         self.errors.append((1, "Недостаточно средств"))
+        #
+        #     seller = db_sess.query(Seller).filter(Seller.id == product.seller_id).first()
+        #
+        #     if not seller:
+        #         self.success = False
+        #         self.errors.append((1, "Продавец не найден"))
+        #         if not self.success: return None
+        #
+        #     seller_user = db_sess.query(User).filter(User.id == seller.user_id).first()
+        #
+        #     new_transaction = Transaction(
+        #         transaction_type=0,
+        #         from_id=user.id,
+        #         to_id=seller.id,
+        #         amount=product.price,
+        #         product=product
+        #     )
+        #     db_sess.add(new_transaction)
+        #     user.balance -= product.price
+        #     seller_user.balance += product.price
+        #     product.count -= 1
+        #     db_sess.commit()
+        #     return None
+
+
+
+
+
+
+
+
 
 

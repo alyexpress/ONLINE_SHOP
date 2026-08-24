@@ -15,3 +15,7 @@ TEMPLATES_DIR = 'templates'
 STATIC_DIR = 'static'
 DATABASE_DIR = 'database'
 DATABASE_PATH = path.join(DATABASE_DIR, "database.db")
+
+# COOKIES CONFIG
+CART_COOKIES = "product"
+EXPIRES_COOKIES = 2592000
