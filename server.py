@@ -7,8 +7,6 @@ from database import Database
 
 from app.utils import get_cart_cookie
 
-from collections import defaultdict
-
 app = Flask(__name__,
             template_folder=TEMPLATES_DIR,
             static_folder=STATIC_DIR)
@@ -119,9 +117,6 @@ def send_money(user_id):
         amount = request.form.get('money')
         db.replenishment(user_id, amount)
     return render_template('send_money.html', user_id=user_id)
-
-
-
 
 
 if __name__ == '__main__':

@@ -4,6 +4,8 @@ from .sellers import Seller
 from .products import Product
 from .transactions import Transaction
 
+from datetime import datetime, timedelta
+
 from app.utils import hashed_password
 
 
@@ -84,7 +86,8 @@ class Database:
         db_sess.commit()
         return new_seller
 
-    def create_product(self, seller_id=int, name=str, price=float, count=int, description=None):
+    def create_product(self, seller_id:int, category_id:int, name:str, price:float,
+                       discount_price:float, count:int, img_url:str, description=None):
         db_sess = self.create_session()
 
         if not db_sess.query(Seller).filter(Seller.id == seller_id).first():
@@ -102,9 +105,12 @@ class Database:
         if not self.success: return None
         new_product = Product(
             seller_id=seller_id,
+            category_id=category_id,
             name=name,
             price=price,
+            discount_price=discount_price,
             count=count,
+            img_url=img_url,
             description=description
         )
         db_sess.add(new_product)
@@ -172,7 +178,45 @@ class Database:
         db_sess.commit()
         return None
 
+    def get_product(self, product_id:int):
+        db_sess = self.create_session()
 
+        product = db_sess.query(Product).filter(Product.id == product_id).first()
+
+        if product is None:
+            self.success = False
+            self.errors.append((0, "Продукт с этим id не найден."))
+
+        name_product = product.name
+        rating = 4.9
+        name_seller = product.seller.name
+        tag = None
+        if product.count < 100:
+            tag = "Распродажа"
+        elif abs((datetime.now() - product.created_date).days) <= 3:
+            tag = "Новинка"
+        description = product.description
+        price = product.price
+        discount_price = product.discount_price
+        discount = round((price - discount_price) / price * 100)
+        img_url = product.img_url
+
+        return {'name_product':name_product, 'name_seller':name_seller, 'rating':rating,
+                'tag':tag, 'description':description, 'price':price, 'discount_price':discount_price,
+                'discount':discount, 'img_url':img_url, 'id':product_id}
+
+    def get_latest_products(self, count):
+        db_sess = self.create_session()
+
+        res = []
+
+        last_products = db_sess.query(Product).order_by(Product.id.desc()).limit(count).all()
+
+        for product in last_products:
+            product_id = product.id
+            res.append(self.get_product(product_id))
+
+        return res
 
 
 
