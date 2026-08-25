@@ -110,6 +110,19 @@ def add_product(product_id):
 def money():
     return render_template('money.html')
 
+@app.route('/send_money/<int:user_id>', methods=['GET', 'POST'])
+def send_money(user_id):
+    if request.method == 'GET':
+        return render_template('send_money.html')
+
+    if request.method == 'POST':
+        amount = request.form.get('money')
+        db.replenishment(user_id, amount)
+    return render_template('send_money.html', user_id=user_id)
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host=HOST, port=PORT, debug=DEBUG)

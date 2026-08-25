@@ -161,45 +161,16 @@ class Database:
         db_sess.commit()
         return None
 
-        # total_amount = 0
-        #
-        # for product in products:
-        #     if not isinstance(product, Product):
-        #         self.success = False
-        #         self.errors.append((1, "В списке передан не товар."))
-        #     if product.count <= 0:
-        #         self.success = False
-        #         self.errors.append((1, "Товар отсутсвует на складе."))
-        #
-        #     total_amount += product.price
-        #
-        #     if user.balance < total_amount:
-        #         self.success = False
-        #         self.errors.append((1, "Недостаточно средств"))
-        #
-        #     seller = db_sess.query(Seller).filter(Seller.id == product.seller_id).first()
-        #
-        #     if not seller:
-        #         self.success = False
-        #         self.errors.append((1, "Продавец не найден"))
-        #         if not self.success: return None
-        #
-        #     seller_user = db_sess.query(User).filter(User.id == seller.user_id).first()
-        #
-        #     new_transaction = Transaction(
-        #         transaction_type=0,
-        #         from_id=user.id,
-        #         to_id=seller.id,
-        #         amount=product.price,
-        #         product=product
-        #     )
-        #     db_sess.add(new_transaction)
-        #     user.balance -= product.price
-        #     seller_user.balance += product.price
-        #     product.count -= 1
-        #     db_sess.commit()
-        #     return None
+    def replenishment(self, user_id, amount):
+        db_sess = self.create_session()
 
+        if not amount.isdigit():
+            self.errors.append((1, "ВВеденно не число"))
+
+        user = db_sess.query(User).filter(User.id == user_id).first()
+        user.balance += int(amount)
+        db_sess.commit()
+        return None
 
 
 
