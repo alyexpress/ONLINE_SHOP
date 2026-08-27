@@ -1,2 +1,2 @@
-from . import products, users, sellers
 from .database import Database
+from .models import *

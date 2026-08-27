@@ -1,8 +1,9 @@
+from ..session import SqlAlchemyBase
 import sqlalchemy as db
-from .db_session import SqlAlchemyBase
-from datetime import datetime
+
 from flask_login import UserMixin
 from app.utils import hashed_password
+from datetime import datetime
 
 
 class User(SqlAlchemyBase, UserMixin):

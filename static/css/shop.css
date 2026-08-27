@@ -1,0 +1,104 @@
+.body {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 30%;
+    max-width: 350px;
+    margin: 20px 0;
+    border-radius: 30px;
+    border: 1px solid #eee;
+}
+
+.sidebar > h1 {
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.sidebar > h1 > svg {
+    margin-right: 5px;
+}
+
+.sidebar span.line {
+    display: block;
+    height: 1px;
+    background: #eee;
+}
+
+.sidebar a.rating {
+    color: black;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px 30px;
+}
+
+.sidebar a.rating > h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sidebar a.rating svg {
+    color: orange;
+    margin: -1px 5px 1px 0;
+}
+
+.sidebar a.rating:hover > h1 {
+    text-decoration: underline;
+}
+
+.sidebar .links > a {
+    display: flex;
+    align-items: center;
+    /*background: var(--bg-color);*/
+    text-decoration: none;
+    color: gray;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 10px 20px;
+    margin: 10px 10px 0;
+    border-radius: 20px;
+    transition: .2s;
+}
+
+.sidebar .links > a:hover:not(.link-active) {
+    background: var(--bg-color);
+    color: black;
+}
+
+@keyframes sidebar-active {
+    0% {
+        background: var(--bg-color);
+        color: white;
+    }
+    100% {
+        background: var(--main-color);
+        color: white;
+    }
+}
+
+.sidebar .links > a > svg {
+    margin-right: 15px;
+}
+
+.sidebar .links > a.link-active {
+    animation-name: sidebar-active;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
+}
+
+.body .main {
+    margin: 30px;
+}

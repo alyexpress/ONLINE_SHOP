@@ -271,9 +271,9 @@ label.checkbox-body input[type=checkbox]:checked ~ .checkbox > svg {
     margin: 7px 7px 10px;
 }
 
-.product-grid > .col button {
+.product-grid > .col > button {
     width: 100%;
-    margin-top: 3px;
+    /*margin-top: 3px;*/
     padding: 5px 0;
     font-size: 19px;
     font-weight: 500;
@@ -284,10 +284,44 @@ label.checkbox-body input[type=checkbox]:checked ~ .checkbox > svg {
     transition: .15s;
 }
 
-.product-grid > .col button > svg {
+.product-grid > .col > button > svg {
     margin: -2px 3px 2px 0;
 }
 
-.product-grid > .col button:hover {
+.product-grid > .col > button:hover {
     filter: brightness(115%);
+}
+
+.product-grid > .col > .counter {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    background: var(--bg-color);
+    border: 1px solid #eee;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.product-grid > .col > .counter > span {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.product-grid > .col > .counter > button {
+    background: var(--bg-color);
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 2px 20px;
+    border-radius: 12px;
+    transition: .15s;
+}
+
+.product-grid > .col > .counter > button:hover {
+    filter: brightness(0.9);
+}
+
+.product-grid > .col > .counter > button:active {
+    filter: brightness(1);
 }

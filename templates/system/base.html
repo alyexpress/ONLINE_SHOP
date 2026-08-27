@@ -24,18 +24,38 @@
             <div class="navigation-bar d-flex align-items-center">
                 <a href="/" {% if nav == 1 %}class="navigation-active"{% endif %}>Главная</a>
                 <a href="/products" {% if nav == 2 %}class="navigation-active"{% endif %}>Товары</a>
-                <a href="/cart" {% if nav == 3 %}class="navigation-active"{% endif %}>Корзина</a>
-                <a href="/money" {% if nav == 4 %}class="navigation-active"{% endif %}>Баланс</a>
+                <a href="/cart" {% if nav == 3 %}class="navigation-active"{% endif %}>Корзина<span class="d-none"></span></a>
+{#                <a href="/money" {% if nav == 4 %}class="navigation-active"{% endif %}>Баланс</a>#}
+                {% if nav == 5 or SHOP_TAB %}<a href="/shop" {% if nav == 5 %}class="navigation-active"{% endif %}>Магазин</a>{% endif %}
             </div>
-            <div class="header-login d-flex align-items-center">
-                <a href="/login" class="header-login-solid">Войти</a>
-                <a href="/registration" class="header-login-outline">Регистрация</a>
-            </div>
+            {% if current_user.is_authenticated %}
+                <div class="header-login d-flex align-items-center">
+                    <div class="header-user">
+                        <a href="/balance" class="money">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"></path>
+                            </svg>
+                            <span>{{ BALANCE }}</span>
+                        </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                        </svg>
+                        <span>{{ current_user.username }}</span>
+                    </div>
+{#                    <a href="/logout" class="header-login-outline">Выйти</a>#}
+                </div>
+            {% else %}
+                <div class="header-login d-flex align-items-center">
+                    <a href="/login" class="header-login-solid">Войти</a>
+                    <a href="/registration" class="header-login-outline">Регистрация</a>
+                </div>
+            {% endif %}
         </div>
     </header>
     {% block body %}{% endblock %}
     {% if bootstrap is not defined or bootstrap == True %}<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>{% endif %}
+    <script type="text/javascript" src="{{ url_for("static", filename="js/cookie.js") }}"></script>
     {% for file in js %}<script type="text/javascript" src="{{ url_for("static", filename="js/" + file) }}"></script>{% endfor %}
     {% block scripts %}{% endblock %}
 </body>

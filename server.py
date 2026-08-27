@@ -1,11 +1,10 @@
-from flask import Flask, render_template, redirect, request, make_response
+from flask import Flask, render_template, redirect, request, abort
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 from config import *
-
+from app.utils import *
 from database import Database
 
-from app.utils import get_cart_cookie
 
 app = Flask(__name__,
             template_folder=TEMPLATES_DIR,
@@ -22,33 +21,22 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@app.context_processor
+def inject_config():
+    return dict(PROJECT_NAME=PROJECT_NAME, COMPANY_NAME=COMPANY_NAME, CART_COOKIES=CART_COOKIES,
+        SHOP_TAB=current_user.is_authenticated and db.has_seller(current_user),
+        BALANCE=toRub(current_user.balance) if current_user.is_authenticated else 0)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.load_user(user_id)
 
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect("/")
-
-
-@app.context_processor
-def inject_config():
-    return dict(PROJECT_NAME=PROJECT_NAME,
-                COMPANY_NAME=COMPANY_NAME)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def _login():
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('system/login.html')
 
     elif request.method == 'POST':
         # Get input data & check validation
@@ -61,13 +49,13 @@ def _login():
             login_user(user, remember=True)
             return redirect("/")
 
-        return render_template('login.html', errors=db.errors)
+        return render_template('system/login.html', errors=db.errors)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     if request.method == 'GET':
-        return render_template('registration.html')
+        return render_template('system/registration.html')
 
     if request.method == 'POST':
         # Get input data & check validation
@@ -81,42 +69,153 @@ def registration():
             login_user(new_user, remember=True)
             return redirect("/")
 
-        return render_template('registration.html', errors=db.errors)
+        return render_template('system/registration.html', errors=db.errors)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/login")
+
+
+@app.route('/')
+def index():
+    products = db.get_latest_products()
+    if not db.success: abort(502)
+    return render_template('main/index.html', products=products)
+
+
+@app.route('/product/<int:product_id>')
+def product(product_id):
+    product = db.get_product(product_id)
+    if not db.success: return abort(404)
+    recommended = db.get_recommend_products(product_id)
+    return render_template('main/product.html',
+        product=product, recommended=recommended)
 
 
 @app.route('/products')
 def products():
-    return render_template('products.html')
+    products = db.get_latest_products()
+    if not db.success: abort(502)
+    return render_template('main/products.html', products=products)
 
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    return render_template('main/cart.html')
+
 
 @app.route('/cart/buy')
-def cart_buy():
-    db.purchase(current_user, get_cart_cookie(request.cookies))
-    return render_template('cart_buy.html')
+@login_required
+def buy():
+    db.purchase(current_user, request.cookies)
+    return render_template('main/buy.html')
 
-@app.route('/add_product/<int:product_id>')
-def add_product(product_id):
-    response = redirect("/")
-    response.set_cookie(f"{CART_COOKIES}_{product_id}", "1", EXPIRES_COOKIES)
-    return response
 
-@app.route('/money')
-def money():
-    return render_template('money.html')
+@app.route('/balance')
+@login_required
+def balance():
+    return render_template('main/balance.html',
+        qr_src=qr_generate(current_user.id))
+
 
 @app.route('/send_money/<int:user_id>', methods=['GET', 'POST'])
 def send_money(user_id):
     if request.method == 'GET':
-        return render_template('send_money.html')
+        return render_template('system/send_money.html', sent=False)
 
     if request.method == 'POST':
-        amount = request.form.get('money')
-        db.replenishment(user_id, amount)
-    return render_template('send_money.html', user_id=user_id)
+        db.replenishment(user_id, request.form.get('money'))
+        return render_template('system/send_money.html', sent=True)
+
+
+@app.route('/shop')
+@login_required
+def shop():
+    seller = db.get_seller(current_user, request.cookies)
+    if seller is None: return redirect("/shop/login")
+    return render_template('shop/index.html', seller=seller)
+
+
+@app.route('/shop/login', methods=['GET', 'POST'])
+@login_required
+def shop_login():
+    if request.method == 'GET':
+        seller = db.get_seller(current_user, request.cookies)
+        if seller is not None: return redirect("/shop")
+        if not db.has_seller(current_user): return redirect("/shop/open")
+        shop_name = db.get_seller(current_user).shop_name
+        return render_template('shop/login.html', shop_name=shop_name)
+
+    elif request.method == 'POST':
+        password = request.form.get('password', '')
+        seller = db.login_seller(current_user, password)
+
+        if seller is not None:
+            response = redirect("/shop")
+            response.set_cookie('seller', seller.hashed_password)
+            return response
+
+        return render_template('shop/login.html',
+            shop_name=db.get_seller(current_user).shop_name)
+
+
+@app.route('/shop/open', methods=['GET', 'POST'])
+@login_required
+def shop_open():
+    if request.method == 'GET':
+        seller = db.get_seller(current_user, request.cookies)
+        if seller is not None: return redirect("/shop")
+        if db.has_seller(current_user): return redirect("/shop/login")
+        return render_template('shop/open.html')
+
+    elif request.method == 'POST':
+        # Get input data & check validation
+        shop_name = request.form.get('shop_name', '')
+        password = request.form.get('password', '')
+        seller = db.create_seller(current_user, shop_name, password)
+
+        # Create & login user if validation success
+        if db.success:
+            response = redirect("/shop")
+            response.set_cookie('seller', seller.hashed_password)
+            return response
+
+        return render_template('shop/open.html', errors=db.errors)
+
+
+@app.route('/shop/add', methods=['GET', 'POST'])
+@login_required
+def shop_add():
+    seller = db.get_seller(current_user, request.cookies)
+    if seller is None: return redirect("/shop/login")
+
+    if request.method == 'GET':
+        return render_template('shop/add.html', seller=seller)
+    elif request.method == 'POST':
+        # Get input data from form
+        name = request.form.get('name', '')
+        count = request.form.get('count', '')
+        price = request.form.get('price', '')
+        description = request.form.get('description', '')
+        discount_price = request.form.get('discount_price', '')
+
+        # Get & save cover file
+        file = request.files['cover']
+        exc = file.filename.split('.')[-1]
+        filename = cover_name(exc)
+        file.save(filename)
+        crop_cover(filename)
+
+        # Add product to database
+        db.create_product(seller.id, 0, name, description if description
+            else None, filename, int(price), int(count),
+            int(discount_price) if discount_price else None)
+
+        if db.success: return redirect("/shop")
+        return render_template('shop/add.html', seller=seller, errors=db.errors)
 
 
 if __name__ == '__main__':

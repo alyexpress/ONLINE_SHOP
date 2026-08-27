@@ -1,32 +1,28 @@
-from . import db_session, transactions
-from .users import User
-from .sellers import Seller
-from .products import Product
-from .transactions import Transaction
+from .models import User, Seller, Product, Category, Transaction
+from . import session
 
-from datetime import datetime, timedelta
-
-from app.utils import hashed_password
+from datetime import datetime
+from app.utils import hashed_password, get_cart_cookie, toRub
 
 
 class Database:
     def __init__(self, filename:str):
-        db_session.global_init(filename)
+        session.global_init(filename)
         self.success, self.errors = True, []
 
 
     @staticmethod
     def load_user(user_id):
-        db_sess = db_session.create_session()
+        db_sess = session.create_session()
         return db_sess.query(User).get(user_id)
 
 
     def create_session(self):
         self.success, self.errors = True, []
-        return db_session.create_session()
+        return session.create_session()
 
 
-    def create_user(self, username:str, email:str, password:str, balance:float = 100000):
+    def create_user(self, username:str, email:str, password:str):
         db_sess = self.create_session()
 
         # Input data validation
@@ -44,8 +40,7 @@ class Database:
 
         # Creating new user & save
         new_user = User(email=email, username=username,
-            hashed_password=hashed_password(password),
-                        balance=balance)
+            hashed_password=hashed_password(password))
         db_sess.add(new_user)
         db_sess.commit()
 
@@ -68,56 +63,78 @@ class Database:
         return user
 
 
-    def create_seller(self, user_id:int, name:str, balance:float = 0):
+    def has_seller(self, user:User) -> bool:
+        db_sess = self.create_session()
+        return db_sess.query(Seller).filter(
+            Seller.user_id == user.id).first() is not None
+
+
+    def get_seller(self, user:User, cookie=None):
         db_sess = self.create_session()
 
-        if not db_sess.query(User).filter(User.id == user_id).first():
-            self.success = False
-            self.errors.append((0, "Пльзователь с этим id не найден."))
-        if not 4 <= len(name) <= 25:
-            self.success = False
-            self.errors.append((0, "Ваш никнейм должен быть длинной от 4 до 25 символов."))
-        if db_sess.query(Seller).filter(Seller.name == name).first() is not None:
-            self.success = False
-            self.errors.append((0, "Этот никнейм уже занят."))
+        if cookie is None:
+            return db_sess.query(Seller).filter(
+                Seller.user_id == user.id).first()
+
+        hash_password = cookie.get('seller', '')
+        return db_sess.query(Seller).filter(Seller.user_id == user.id,
+            Seller.hashed_password == hash_password).first()
+
+
+    def create_seller(self, user:User, shop_name:str, password:str):
+        db_sess = self.create_session()
+
+        # Input data validation
+        if not 4 <= len(shop_name) <= 25: self.errors.append(
+            (0, "Название магазина должен быть длинной от 4 до 25 символов."))
+        if not 4 <= len(password) <= 25: self.errors.append(
+            (1, "Пароль должен быть длинной от 4 до 25 символов."))
+        if db_sess.query(Seller).filter(Seller.shop_name == shop_name).first() is not None:
+            self.errors.append((0, "Это название магазина уже занято."))
+
+        if self.errors: self.success = False
         if not self.success: return None
-        new_seller = Seller(user_id=user_id, name=name, balance=balance)
-        db_sess.add(new_seller)
+
+        # Creating new Seller
+        seller = Seller(user_id=user.id, shop_name=shop_name,
+                        hashed_password=hashed_password(password))
+        db_sess.add(seller)
         db_sess.commit()
-        return new_seller
+        return db_sess.query(Seller).filter(Seller.id == seller.id).first()
 
-    def create_product(self, seller_id:int, category_id:int, name:str, price:float,
-                       discount_price:float, count:int, img_url:str, description=None):
+
+    def login_seller(self, user:User, password:str):
+        seller = self.get_seller(user)
+        return seller if (seller.hashed_password ==
+                hashed_password(password)) else None
+
+
+    def create_product(self, seller_id:int, category_id:int, name:str, description:str,
+                       img_src:str, price:float, count:int, discount_price:float=None):
+
         db_sess = self.create_session()
 
-        if not db_sess.query(Seller).filter(Seller.id == seller_id).first():
-            self.success = False
-            self.errors.append((0, "Пльзователь с этим id не найден."))
-        if not 2 <= len(name) <= 50:
-            self.success = False
-            self.errors.append((1, "Название продукта должно быть от 2 до 50 символов."))
-        if price <= 0:
-            self.success = False
-            self.errors.append((2, "Цена продукта должна быть больше 0."))
-        if count < 0:
-            self.success = False
-            self.errors.append((3, "Количество продукта не может быть меньше нуля."))
+        if not 2 <= len(name) <= 100: self.errors.append(
+            (1, "Название продукта должно быть от 2 до 100 символов."))
+        if price <= 0 or (type(discount_price) is int and discount_price <= 0):
+            self.errors.append((4, "Цена продукта должна быть больше 0."))
+        if count < 0: self.errors.append(
+            (5, "Количество продукта не может быть меньше нуля."))
+
+        if self.errors: self.success = False
         if not self.success: return None
-        new_product = Product(
-            seller_id=seller_id,
-            category_id=category_id,
-            name=name,
-            price=price,
-            discount_price=discount_price,
-            count=count,
-            img_url=img_url,
-            description=description
-        )
+
+        new_product = Product(seller_id=seller_id, category_id=category_id,
+            name=name, description=description, img_src=img_src, price=price,
+            discount_price=discount_price, count=count)
         db_sess.add(new_product)
         db_sess.commit()
+
         return new_product
 
-    def purchase(self, user:User, products:dict):
+
+    def purchase(self, user:User, cookies):
+        products = get_cart_cookie(cookies)
         db_sess = self.create_session()
 
         if not products:
@@ -137,7 +154,7 @@ class Database:
             amount = product.price * products[product_id]
 
             transactions.append(Transaction(
-                transaction_type=1,
+                type=1,
                 from_id=user.id,
                 to_id=product.seller_id,
                 amount=amount,
@@ -167,60 +184,67 @@ class Database:
         db_sess.commit()
         return None
 
+
     def replenishment(self, user_id, amount):
         db_sess = self.create_session()
 
         if not amount.isdigit():
-            self.errors.append((1, "ВВеденно не число"))
+            self.errors.append((1, "Введено не число"))
 
-        user = db_sess.query(User).filter(User.id == user_id).first()
+        user = db_sess.query(User).get(user_id)
         user.balance += int(amount)
+        db_sess.add(Transaction(type=0, product_id=None,
+            from_id=None, to_id=user_id, amount=amount))
         db_sess.commit()
-        return None
+
 
     def get_product(self, product_id:int):
         db_sess = self.create_session()
-
-        product = db_sess.query(Product).filter(Product.id == product_id).first()
+        product = db_sess.query(Product).get(product_id)
 
         if product is None:
             self.success = False
             self.errors.append((0, "Продукт с этим id не найден."))
+            return None
 
-        name_product = product.name
-        rating = 4.9
-        name_seller = product.seller.name
-        tag = None
-        if product.count < 100:
-            tag = "Распродажа"
-        elif abs((datetime.now() - product.created_date).days) <= 3:
-            tag = "Новинка"
-        description = product.description
-        price = product.price
+        previous_price = product.price
         discount_price = product.discount_price
-        discount = round((price - discount_price) / price * 100)
-        img_url = product.img_url
 
-        return {'name_product':name_product, 'name_seller':name_seller, 'rating':rating,
-                'tag':tag, 'description':description, 'price':price, 'discount_price':discount_price,
-                'discount':discount, 'img_url':img_url, 'id':product_id}
+        if discount_price is not None:
+            discount = round((previous_price - discount_price) / previous_price * 100)
+            price = toRub(int(discount_price))
+            previous_price = toRub(int(previous_price))
 
-    def get_latest_products(self, count):
+        else:
+            price = toRub(int(previous_price))
+            previous_price = None
+            discount = None
+
+        return {
+            "id": product_id,
+            "name": product.name,
+            "shop_name": product.seller.shop_name,
+            "rating": 4.9,
+            "tag_check": True,
+            "tag_new": abs((datetime.now() - product.created_date).days) < 15,
+            "tag_sale": product.count < 100,
+            "description": product.description,
+            "price": price,
+            "previous_price": previous_price,
+            "discount": discount,
+            "cover_src": product.img_src.replace("static/", ""),
+        }
+
+    def get_latest_products(self, count=10):
         db_sess = self.create_session()
-
-        res = []
-
         last_products = db_sess.query(Product).order_by(Product.id.desc()).limit(count).all()
-
-        for product in last_products:
-            product_id = product.id
-            res.append(self.get_product(product_id))
-
-        return res
+        return [self.get_product(product.id) for product in last_products]
 
 
-
-
-
-
-
+    def get_recommend_products(self, product_id, count=10):
+        db_sess = self.create_session()
+        product = db_sess.query(Product).get(product_id)
+        recommended_products = db_sess.query(Product).order_by(
+            Product.id.desc()).filter(Product.category_id ==
+            product.category_id, Product.id != product_id).limit(count).all()
+        return [self.get_product(prod.id) for prod in recommended_products]

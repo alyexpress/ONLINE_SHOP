@@ -1,0 +1,64 @@
+{% extends "system/base.html" %}
+
+{% set nav = 4 %}
+{% set css = ["money.css"] %}
+
+{% block body %}
+    <div class="user-center d-flex align-items-center justify-content-center">
+        <div class="user-block d-flex align-items-center justify-content-center">
+            <div class="col-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Lipu_tenpo_-_QR_Code.png" alt="">
+                <span>Пополнить баланс с телефона</span>
+            </div>
+            <div>
+                <div class="user-info">
+                    <h1>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                        </svg>
+                        AlyExpress
+                    </h1>
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"></path>
+                        </svg>
+                        al.ymov@yandex.ru
+                    </h3>
+    {#                <h2>#}
+    {#                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">#}
+    {#                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"></path>#}
+    {#                    </svg>#}
+    {#                    1 200 ₽#}
+    {#                </h2>#}
+    {#                <div class="flex-grow-1"></div>#}
+                    <div class="d-flex mt-5">
+                        <span class="money">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-credit-card-fill" viewBox="0 0 16 16">#}
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"></path>
+                            </svg>
+                            <span class="money-w">1 200 ₽</span>
+                        </span>
+                        <a href="" class="money-update">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"></path>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"></path>
+                            </svg>
+                            Обновить
+                        </a>
+                    </div>
+                </div>
+                <div class="user-buttons">
+                    <a href="">Покупки</a>
+                    <a href="" class="exit">Выйти</a>
+{#                    <a href="">#}
+{#                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-inboxes-fill" viewBox="0 0 16 16" style="margin: -3px 7px 3px 0">#}
+{#                            <path d="M4.98 1a.5.5 0 0 0-.39.188L1.54 5H6a.5.5 0 0 1 .5.5 1.5 1.5 0 0 0 3 0A.5.5 0 0 1 10 5h4.46l-3.05-3.812A.5.5 0 0 0 11.02 1zM3.81.563A1.5 1.5 0 0 1 4.98 0h6.04a1.5 1.5 0 0 1 1.17.563l3.7 4.625a.5.5 0 0 1 .106.374l-.39 3.124A1.5 1.5 0 0 1 14.117 10H1.883A1.5 1.5 0 0 1 .394 8.686l-.39-3.124a.5.5 0 0 1 .106-.374zM.125 11.17A.5.5 0 0 1 .5 11H6a.5.5 0 0 1 .5.5 1.5 1.5 0 0 0 3 0 .5.5 0 0 1 .5-.5h5.5a.5.5 0 0 1 .496.562l-.39 3.124A1.5 1.5 0 0 1 14.117 16H1.883a1.5 1.5 0 0 1-1.489-1.314l-.39-3.124a.5.5 0 0 1 .121-.393z"></path>#}
+{#                        </svg>#}
+{#                        Все транзакции#}
+{#                    </a>#}
+{#                    <a href="/logout" class="">Выйти из аккаунта</a>#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

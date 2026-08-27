@@ -1,0 +1,52 @@
+{% extends "system/base.html" %}
+
+{% set nav = 4 %}
+{% set css = ["balance.css"] %}
+
+{% block body %}
+    <div class="container d-flex mt-5">
+        <div class="col-4">
+            <img src="{{ qr_src }}" alt="">
+            <span class="secondary">Пополнить баланс с телефона</span>
+            <span class="line"></span>
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                </svg>
+                {{ current_user.username }}
+            </h1>
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"></path>
+                </svg>
+                {{ current_user.email }}
+            </h3>
+            <a href="/logout">Выйти из аккаунта</a>
+        </div>
+        <div class="col-8">
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1 d-flex align-items-center">
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"></path>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"></path>
+                        </svg>
+                        Обновить
+                    </a>
+                </div>
+                <label>
+                    <input type="radio" name="type" checked hidden>
+                    Все транзакции
+                </label>
+                <label>
+                    <input type="radio" name="type" hidden>
+                    Пополнения
+                </label>
+                <label>
+                    <input type="radio" name="type" hidden>
+                    Списания
+                </label>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -3,11 +3,12 @@ form.search {
     border: 3px solid var(--main-color);
     background: var(--main-color);
     overflow: hidden;
-    transition: .2s;
+    transition: .3s;
 }
 
 form.search:has(input:focus) {
-    box-shadow: 0 0 25px #1E90FF55;
+    box-shadow: 0 0 0 5px #1E90FF55;
+    /*box-shadow: 0 0 25px #1E90FF55;*/
 }
 
 form.search > input {
@@ -22,7 +23,7 @@ form.search > input {
 }
 
 form.search > input::placeholder {
-    color: #bbbbbb;
+    color: #bbb;
 }
 
 form.search > button {
@@ -33,7 +34,9 @@ form.search > button {
     transition: .15s;
 }
 
-form.search > button:hover { filter: brightness(115%) }
+form.search:has(button:hover) {
+    filter: brightness(115%)
+}
 
 
 .product-grid > .col {
@@ -169,7 +172,7 @@ label.sort-button:has(input:checked) {
 .more-button {
     margin: 10px 0;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     background: var(--main-color);
     color: white;
     text-decoration: none;

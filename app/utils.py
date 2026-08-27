@@ -1,9 +1,11 @@
 import hashlib
-from flask import url_for, request
-import qrcode
-from io import BytesIO
-import base64
-from config import CART_COOKIES
+from config import CART_COOKIES, COVER_DIR
+from flask import request
+import qrcode, base64, io
+from datetime import datetime
+from os.path import join
+from PIL import Image
+
 
 def hashed_password(password):
     password = "VaLen3n" + password
@@ -18,23 +20,43 @@ def get_cart_cookie(cookies):
     return res
 
 
+def toRub(num):
+    return ' '.join(str(num)[::-1][i : i + 3] for i in
+        range(0, len(str(num)), 3))[::-1] + " ₽"
+
+
 def qr_generate(user_id:int):
-    # Build payment URL
     base_url = request.host_url.rstrip('/')
-    url = f"{base_url}/get_money/{user_id}"
+    url = f"{base_url}/send_money/{user_id}"
 
-    # Create QR code
-    qr = qrcode.QRCode(version=1,
-                       error_correction=qrcode.constants.ERROR_CORRECT_L,
-                       box_size=10, border=4)
-    qr.add_data(url)
-    qr.make(fit=True)
-
-    # Generate image and encode as base64
-    img = qr.make_image(fill_color="black",
-                        back_color="white")
-    buffer = BytesIO()
+    img = qrcode.make(url)
+    buffer = io.BytesIO()
     img.save(buffer, format="PNG")
-    img_base64 = base64.b64encode(buffer.getvalue()).decode()
+    img_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
 
     return f"data:image/png;base64,{img_base64}"
+
+
+def cover_name(exc):
+    name = datetime.now().strftime("%Y%m%d%H%M%S")
+    return join(COVER_DIR, f"{name}.{exc}")
+
+
+def crop_cover(filename):
+    img = Image.open(filename)
+    width, height = img.size
+
+    if width * 3 > height * 2:
+        new_height = height
+        new_width = int(height * 2 / 3)
+    else:
+        new_width = width
+        new_height = int(width * 3 / 2)
+
+    offset_x = (width - new_width) // 2
+    offset_y = (height - new_height) // 2
+
+    box = (offset_x, offset_y, offset_x + new_width, offset_y + new_height)
+
+    cropped_img = img.crop(box)
+    cropped_img.save(filename)

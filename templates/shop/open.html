@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "system/base.html" %}
 
+{% set nav = 5 %}
 {% set css = ["login.css"] %}
 
 {% block body %}
@@ -11,12 +12,8 @@
                     </path></svg><span>{{ PROJECT_NAME }}</span>
             </div>
             <label>
-                <input type="email" placeholder=" " name="email" required>
-                <span>Email (почта)</span>
-            </label>
-            <label>
-                <input type="text" placeholder=" " name="username" required>
-                <span>Username</span>
+                <input type="text" placeholder=" " name="shop_name" required>
+                <span>Название магазина</span>
             </label>
             <label>
                 <input type="password" placeholder=" " name="password" required>
@@ -29,9 +26,9 @@
                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"></path>
                     </svg>
                 </span>
-                Я согласен с <a href="">условиями</a>
+                Я согласен с <a href="">правилами</a>
             </label>
-            <button type="submit">Регистрация</button>
+            <button type="submit">Открыть магазин</button>
         </form>
     </div>
 {% endblock %}
