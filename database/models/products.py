@@ -16,6 +16,7 @@ class Product(SqlAlchemyBase):
     name = db.Column(db.VARCHAR, nullable=False)
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False)
+    checked = db.Column(db.Boolean, nullable=True, default=False)
     discount_price = db.Column(db.Float, nullable=True)
     count = db.Column(db.Integer, nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.now())

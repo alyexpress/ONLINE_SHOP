@@ -1,4 +1,4 @@
-from .models import User, Seller, Product, Category, Transaction
+from .models import User, Seller, Product, Category, Transaction, Rating
 from . import session
 
 from datetime import datetime
@@ -110,7 +110,7 @@ class Database:
 
 
     def create_product(self, seller_id:int, category_id:int, name:str, description:str,
-                       img_src:str, price:float, count:int, discount_price:float=None):
+                       img_src:str, price:float, count:int, discount_price:float=None, checked=False):
 
         db_sess = self.create_session()
 
@@ -126,7 +126,7 @@ class Database:
 
         new_product = Product(seller_id=seller_id, category_id=category_id,
             name=name, description=description, img_src=img_src, price=price,
-            discount_price=discount_price, count=count)
+            discount_price=discount_price, count=count, checked=checked)
         db_sess.add(new_product)
         db_sess.commit()
 
@@ -225,7 +225,7 @@ class Database:
             "name": product.name,
             "shop_name": product.seller.shop_name,
             "rating": 4.9,
-            "tag_check": True,
+            "tag_check": product.checked,
             "tag_new": abs((datetime.now() - product.created_date).days) < 15,
             "tag_sale": product.count < 100,
             "description": product.description,
@@ -248,3 +248,43 @@ class Database:
             Product.id.desc()).filter(Product.category_id ==
             product.category_id, Product.id != product_id).limit(count).all()
         return [self.get_product(prod.id) for prod in recommended_products]
+
+    def get_product_rating(self, product_id:int):
+        db_sess = self.create_session()
+
+        if not db_sess.query(Product).filter(Product.id == product_id).first():
+            self.success = False
+            self.errors.append((0, "Продукт с этим айди не найден."))
+            return None
+
+        product_ratings = db_sess.query(Rating).filter(Rating.product_id == product_id).all()
+        rating = round(sum(list(map(lambda x: x.rating, product_ratings))) /
+                       len(product_ratings), 1)
+
+        return rating
+
+    def get_seller_rating(self, seller_id:int):
+        db_sess = self.create_session()
+
+        if not db_sess.query(Seller).filter(Seller.id == seller_id).first():
+            self.success = False
+            self.errors.append((0, "Продавец с этим айди не найден"))
+            return None
+
+        seller_ratings = db_sess.query(Product).filter(Product.seller_id == seller_id).all()
+        rating = round(sum(list(map(lambda x: self.get_product_rating(x), seller_ratings))) /
+                       len(seller_ratings), 1)
+
+        return rating
+
+    def products_this_category(self, category:Category, count:int=10):
+        db_sess = self.create_session()
+
+        if not category:
+            self.success = False
+            self.errors.append((0, "Категория не передана."))
+            return None
+
+        products = db_sess.query(Product).filter(Product.category == category).order_by(Product.id.desc()).limit(count).all()
+
+        return products
