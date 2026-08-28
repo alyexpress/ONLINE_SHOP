@@ -145,44 +145,42 @@ class Database:
         transactions = []
 
         for product_id in products.keys():
-            product = db_sess.query(Product).filter(Product.id == product_id).first()
+            product = db_sess.query(Product).get(product_id)
 
-            if product.count < 1:
+            if product.count < products[product_id]:
                 self.success = False
                 self.errors.append((1, f"Товар {product_id} закончился."))
+                return None
 
-            amount = product.price * products[product_id]
+            price = product.discount_price if product.discount_price else product.price
+            amount = price * products[product_id]
 
             transactions.append(Transaction(
                 type=1,
+                product_id=product_id,
                 from_id=user.id,
                 to_id=product.seller_id,
                 amount=amount,
-                product_id=product_id,
                 product=product
             ))
 
-            # db_sess.add(transaction)
-            # user.balance -= amount
-            # product.seller.balance += amount
-            # product.count -= products[product_id]
-
         total = sum(list(map(lambda x: x.amount, transactions)))
+        print(total)
+
         if total > user.balance:
             self.success = False
             self.errors.append((0, "Недостаточно средств."))
-
-        if not self.success: return None
+            return None
 
         user = db_sess.merge(user)
         user.balance -= total
 
         for transaction in transactions:
+            transaction.product.count -= products[transaction.product_id]
             transaction.product.seller.balance += transaction.amount
             db_sess.add(transaction)
 
         db_sess.commit()
-        return None
 
 
     def replenishment(self, user_id, amount):
@@ -224,6 +222,7 @@ class Database:
             "id": product_id,
             "name": product.name,
             "shop_name": product.seller.shop_name,
+            "category_id": product.category_id,
             "rating": 4.9,
             "tag_check": True,
             "tag_new": abs((datetime.now() - product.created_date).days) < 15,
@@ -247,4 +246,14 @@ class Database:
         recommended_products = db_sess.query(Product).order_by(
             Product.id.desc()).filter(Product.category_id ==
             product.category_id, Product.id != product_id).limit(count).all()
+        return [self.get_product(prod.id) for prod in recommended_products]
+
+
+    def get_recommend_products_cart(self, products, count=10):
+        db_sess = self.create_session()
+        categories_ids = list(map(lambda x: x["category_id"], products))
+        products_ids = list(map(lambda x: x["id"], products))
+        recommended_products = db_sess.query(Product).order_by(
+            Product.id.desc()).filter(Product.category_id.in_(categories_ids),
+            ~Product.id.in_(products_ids)).limit(count).all()
         return [self.get_product(prod.id) for prod in recommended_products]

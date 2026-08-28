@@ -116,8 +116,15 @@ label.checkbox-body input[type=checkbox]:checked ~ .checkbox > svg {
     color: #999;
 }
 
-.cart-product p {
+.cart-product div.col-6 > a {
     font-size: 18px;
+    color: #222;
+    text-decoration: none;
+}
+
+.cart-product div.col-6 > a:hover {
+    color: var(--main-color);
+    text-decoration: underline;
 }
 
 .cart-product .cost {

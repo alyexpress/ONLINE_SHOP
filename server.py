@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, abort
+from flask import Flask, render_template, redirect, request, abort, jsonify
 from flask_login import (LoginManager, login_user, login_required,
                          logout_user, current_user)
 from config import *
@@ -87,7 +87,7 @@ def index():
 
 
 @app.route('/product/<int:product_id>')
-def product(product_id):
+def _product(product_id):
     product = db.get_product(product_id)
     if not db.success: return abort(404)
     recommended = db.get_recommend_products(product_id)
@@ -96,21 +96,39 @@ def product(product_id):
 
 
 @app.route('/products')
-def products():
+def _products():
     products = db.get_latest_products()
     if not db.success: abort(502)
     return render_template('main/products.html', products=products)
 
 
+@app.route('/api/product/<product_id>')
+def api_product(product_id):
+    if str(request.referrer).startswith(request.host_url):
+        product_id = int(product_id.replace(CART_COOKIES, ""))
+        return jsonify(db.get_product(product_id))
+    return abort(403)
+
+
+
 @app.route('/cart')
 def cart():
-    return render_template('main/cart.html')
+    products = []
+    for id, count in get_cart_cookie(request.cookies).items():
+        data = db.get_product(id)
+        data["cart_count"] = count
+        products.append(data)
+    products.sort(key=lambda x: x["name"])
+    recommended = db.get_recommend_products_cart(products)
+    return render_template('main/cart.html',
+        products=products, recommended=recommended)
 
 
 @app.route('/cart/buy')
 @login_required
 def buy():
     db.purchase(current_user, request.cookies)
+    print(db.errors)
     return render_template('main/buy.html')
 
 
